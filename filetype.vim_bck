@@ -1,0 +1,1 @@
+au BufNewFile,BufRead *.ttcn3 set ttcn3
