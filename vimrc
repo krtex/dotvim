@@ -2,6 +2,11 @@
 " | My precious .vimrc file! |
 " +--------------------------+
 
+" bloody useful for adding new packages
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
+
 " set UTF-8 encoding
 set enc=utf-8
 set fenc=utf-8
@@ -41,6 +46,30 @@ set hidden
 " intelligent comments
 set comments=sl:/*,mb:\ *,elx:\ */
 
+"" --- OmniCppComplete ---
+"" -- required --
+"set nocp " non vi compatible mode
+"filetype plugin on " enable plugins
+"
+"" -- optional --
+"" auto close options when exiting insert mode
+"autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+"set completeopt=menu,menuone
+"
+"" -- configs --
+"let OmniCpp_MayCompleteDot = 1 " autocomplete with .
+"let OmniCpp_MayCompleteArrow = 1 " autocomplete with ->
+"let OmniCpp_MayCompleteScope = 1 " autocomplete with ::
+"let OmniCpp_SelectFirstItem = 2 " select first item (but don't insert)
+"let OmniCpp_NamespaceSearch = 2 " search namespaces in this and included files
+"let OmniCpp_ShowPrototypeInAbbr = 1 " show function prototype (i.e. parameters) in popup window
+"
+"" -- ctags --
+"" map <ctrl>+F5 to generate ctags for current folder:
+"map <C-F5> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR>
+"" add current directory's generated tags file to available tags
+"set tags+=./tags
+
 " Install OmniCppComplete like described on http://vim.wikia.com/wiki/C++_code_completion
 " This offers intelligent C++ completion when typing ‘.’ ‘->’ or <C-o>
 " Load standard tag files
@@ -49,6 +78,8 @@ set tags+=~/.vim/tags/gl
 set tags+=~/.vim/tags/sdl
 set tags+=~/.vim/tags/qt4
 
+" Update tags with saving
+au BufWritePost *.c,*.cpp,*.h silent! !ctags -R &
 
 " Install DoxygenToolkit from http://www.vim.org/scripts/script.php?script_id=987
 let g:DoxygenToolkit_authorName="John Doe <john@doe.com>" 
@@ -87,6 +118,7 @@ map <F9> :new<CR>:read !svn diff<CR>:set syntax=diff buftype=nofile<CR>gg
 else
 " spell settings
 :setlocal spell spelllang=en
+:set spell!
 " set the spellfile - folders must exist
 set spellfile=~/.vim/spellfile.add
 map <M-Down> ]s
@@ -137,10 +169,9 @@ function! StartUp()
     NERDTree
 endfunction
 
-" bloody useful for adding new packages
-execute pathogen#infect()
-syntax on
-filetype plugin indent on
+" Mapping for changing buffers
+map <A-Right> :bn<CR>
+map <A-Left> :bp<CR>
 
 " Mapping for changing window focus
 map <C-h> <C-w>h
